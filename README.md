@@ -11,6 +11,10 @@
 
 **ParkingTelegramBot** - бот телеграм. Точка входа для сервиса. Инициирует выполнение поиска мест на парковке, отправляет данные в чат.
 
+# Для запуска
+1. Добавить нужную модель YOLO в \src\Yolov7net\Assets в формате onnx. Настройка в классе YoloFactory. Сейчас используется YOLO7 с постобработкой - yolov7_post_736x1280
+2. Создать структуру каталогов для изображений с камеры. Для каждой камеры должен быть свой каталог - \CamerasWork\\{CameraName}. В каждом каталоге должен лежать ffmpeg.exe. Скачать его можно с https://github.com/BtbN/FFmpeg-Builds/releases
+
 
 # Что еще надо сделать
 1. Сделать как службу  ```sc create TestService binpath= C:\Path\To\myservice.exe```
