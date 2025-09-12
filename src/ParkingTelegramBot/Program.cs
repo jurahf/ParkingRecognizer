@@ -18,15 +18,20 @@ internal class Program
         HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
         // сервисы
+
+        // запуск сохранения/удаления картинок с камер
         builder.Services.AddScoped<IImageProvider, RTSPImageMulticamProvider>();
         builder.Services.Configure<RtspProviderConfig>(builder.Configuration.GetSection("RtspProvider"));
 
+        // сервисы для распознавания
         builder.Services.AddScoped<IYoloFactory, YoloFactory>();
         builder.Services.AddScoped<IResultsDrawer, ResultsDrawer>();
-
-        builder.Services.AddScoped<IRepository<Parking>, ParkingJsonRepository>();
         builder.Services.AddScoped<IParkingRecognizer, ParkingRecognizer>();
 
+        // репозитории
+        builder.Services.AddScoped<IRepository<Parking>, ParkingJsonRepository>();
+
+        // сервисы бота
         builder.Services.AddScoped<ITelegramBot, TelegramBot>();
         builder.Services.Configure<TelegramConfig>(builder.Configuration.GetSection("TelegramSettings"));
 
