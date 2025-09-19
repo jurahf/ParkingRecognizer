@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkingTelegramBot", "src\P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recognizer", "src\Recognizer\Recognizer.csproj", "{C0DB50C0-981D-4CF8-BDD2-BDB0F7BDA32F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPubl", "TestPubl\TestPubl.csproj", "{0D2436A2-AA6E-4B22-AA21-0251459047F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C0DB50C0-981D-4CF8-BDD2-BDB0F7BDA32F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0DB50C0-981D-4CF8-BDD2-BDB0F7BDA32F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0DB50C0-981D-4CF8-BDD2-BDB0F7BDA32F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D2436A2-AA6E-4B22-AA21-0251459047F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D2436A2-AA6E-4B22-AA21-0251459047F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D2436A2-AA6E-4B22-AA21-0251459047F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D2436A2-AA6E-4B22-AA21-0251459047F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
