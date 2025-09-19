@@ -1,6 +1,7 @@
 ﻿using IVilson.AI.Yolov7net;
 using IVilson.AI.Yolov7net.Models;
 using IVilson.AI.Yolov7net.YoloVersions;
+using Microsoft.Extensions.Caching.Memory;
 using ParkingPlaces.CamerasWork;
 using ParkingPlaces.Models;
 using Recognizer.Drawing;
@@ -16,36 +17,53 @@ namespace Recognizer.Recognizing
         /// </summary>
         private const float minOverlap = 0.45f;
 
+        private static object lockObj = new();
+        private readonly IMemoryCache memoryCache;
+        private readonly TimeSpan cacheExpiration = TimeSpan.FromSeconds(60);
         private readonly IImageProvider imageProvider;
         private readonly IYoloFactory factory;
         private readonly IResultsDrawer drawer;
         private readonly string[] CarsNames = new[] { "car", "motorcycle", "airplane", "bus", "train", "truck", "boat" };
 
-        public ParkingRecognizer(IImageProvider imageProvider, IYoloFactory factory, IResultsDrawer drawer)
+        public ParkingRecognizer(IImageProvider imageProvider, IYoloFactory factory, IResultsDrawer drawer, IMemoryCache memoryCache)
         {
             this.imageProvider = imageProvider;
             this.factory = factory;
             this.drawer = drawer;
+            this.memoryCache = memoryCache;
         }
 
         public ParkingRecognationResult RecognizeAll(Parking parking)
         {
-            var resultList = new List<CameraRecognationResult>();
-
-            using (var yolo = factory.CreateYolo(YoloVersion.Yolo7))
+            lock (lockObj)
             {
-                yolo.SetupYoloDefaultLabels();
-
-                foreach (var camera in parking.Cameras)
+                if (memoryCache.TryGetValue(nameof(ParkingRecognationResult), out ParkingRecognationResult cachedResult) && cachedResult != null)
                 {
-                    var cameraResult = GetCameraRecognationResult(camera, yolo);
+                    return cachedResult;
+                }
+                else
+                {
+                    var resultList = new List<CameraRecognationResult>();
 
-                    if (cameraResult != null)
-                        resultList.Add(cameraResult);
+                    using (var yolo = factory.CreateYolo(YoloVersion.Yolo7))
+                    {
+                        yolo.SetupYoloDefaultLabels();
+
+                        foreach (var camera in parking.Cameras)
+                        {
+                            var cameraResult = GetCameraRecognationResult(camera, yolo);
+
+                            if (cameraResult != null)
+                                resultList.Add(cameraResult);
+                        }
+                    }
+
+                    var result = Merge(resultList);
+                    memoryCache.Set(nameof(ParkingRecognationResult), result, cacheExpiration);
+
+                    return result;
                 }
             }
-
-            return Merge(resultList);
         }
 
         private CameraRecognationResult? GetCameraRecognationResult(Camera camera, IYoloNet yolo)

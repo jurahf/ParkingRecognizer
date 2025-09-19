@@ -8,4 +8,5 @@ public class RtspProviderConfig
     public OutputImageFormat CameraImageFormat { get; set; }
     public string OutputImagePath { get; set; }
     public int SaveIntervalSeconds { get; set; }
+    public int StorageFileForSeconds { get; set; }
 }

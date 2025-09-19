@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ParkingPlaces\ParkingPlaces.csproj" />
     <ProjectReference Include="..\Yolov7net\IVilson.AI.Yolov7net.csproj" />
   </ItemGroup>

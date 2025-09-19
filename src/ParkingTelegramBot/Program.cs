@@ -27,6 +27,7 @@ internal class Program
         builder.Services.AddScoped<IYoloFactory, YoloFactory>();
         builder.Services.AddScoped<IResultsDrawer, ResultsDrawer>();
         builder.Services.AddScoped<IParkingRecognizer, ParkingRecognizer>();
+        builder.Services.AddMemoryCache();
 
         // репозитории
         builder.Services.AddScoped<IRepository<Parking>, ParkingJsonRepository>();

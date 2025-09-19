@@ -17,7 +17,7 @@ public class RTSPImageProvider : IImageProvider
     private VideoStreamClient client;
     private string outputImagePath;
     private DateTime lastSave = DateTime.MinValue;
-    private TimeSpan saveInterval = TimeSpan.FromSeconds(1);
+    private TimeSpan saveInterval = TimeSpan.FromSeconds(1);    // временной интервал, через который сохраняется кадр с камеры
     private TimeSpan storageFilesForTime = TimeSpan.FromSeconds(60); // сколько хранить файлы (старше удаляются)
 
     public RTSPImageProvider(Camera camera, IOptions<RtspProviderConfig> config)
@@ -42,6 +42,9 @@ public class RTSPImageProvider : IImageProvider
             saveInterval = config.SaveIntervalSeconds > 0
                 ? TimeSpan.FromSeconds(config.SaveIntervalSeconds)
                 : TimeSpan.FromSeconds(1);
+            storageFilesForTime = config.StorageFileForSeconds > 0
+                ? TimeSpan.FromSeconds(config.StorageFileForSeconds)
+                : TimeSpan.FromSeconds(60);
 
             if (!Directory.Exists(outputImagePath))
                 Directory.CreateDirectory(outputImagePath);
